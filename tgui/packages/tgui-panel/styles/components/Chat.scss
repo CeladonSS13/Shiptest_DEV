@@ -18,7 +18,7 @@ $color-bg-section: base.$color-bg-section !default;
 .Chat__badge {
   display: inline-block;
   min-width: 0.5em;
-  font-size: 0.7em;
+  font-size: clamp(0.6em, calc(0.7em * var(--ui-scale, 1)), 0.8em);
   padding: 0.2em 0.3em;
   line-height: 1;
   color: hsl(0, 0%, 100%);
@@ -26,7 +26,7 @@ $color-bg-section: base.$color-bg-section !default;
   white-space: nowrap;
   vertical-align: middle;
   background-color: hsl(348, 83%, 47%);
-  border-radius: 10px;
+  border-radius: 0.6rem;
   transition: font-size 200ms ease-out;
 
   &:before {
@@ -35,26 +35,28 @@ $color-bg-section: base.$color-bg-section !default;
 }
 
 .Chat__badge--animate {
-  font-size: 0.9em;
+  font-size: clamp(0.8em, calc(0.9em * var(--ui-scale, 1)), 1em);
   transition: font-size 0ms;
 }
 
 .Chat__scrollButton {
   position: fixed;
-  right: 2em;
-  bottom: 1em;
+  right: 2rem;
+  bottom: 1rem;
+  min-height: 2rem;
+  padding: 0.5rem 1rem;
 }
 
 .Chat__reconnected {
-  font-size: 0.85em;
+  font-size: clamp(0.75em, calc(0.85em * var(--ui-scale, 1)), 0.95em);
   text-align: center;
-  margin: 1em 0 2em;
+  margin: 1rem 0 2rem;
 
   &:before {
     content: 'Reconnected';
     display: inline-block;
-    border-radius: 1em;
-    padding: 0 0.7em;
+    border-radius: 1rem;
+    padding: 0 0.7rem;
     color: colors.$red;
     background-color: $color-bg-section;
   }
@@ -62,8 +64,8 @@ $color-bg-section: base.$color-bg-section !default;
   &:after {
     content: '';
     display: block;
-    margin-top: -0.75em;
-    border-bottom: math.div(1em, 6) solid colors.$red;
+    margin-top: -0.75rem;
+    border-bottom: calc(1rem / 6) solid colors.$red;
   }
 }
 
@@ -83,8 +85,8 @@ $color-bg-section: base.$color-bg-section !default;
 
 .ChatMessage--highlighted {
   position: relative;
-  border-left: math.div(1em, 6) solid hsl(50, 100%, 63.5%);
-  padding-left: 0.5em;
+  border-left: calc(1rem / 6) solid hsl(50, 100%, 63.5%);
+  padding-left: 0.5rem;
 
   &:after {
     content: '';

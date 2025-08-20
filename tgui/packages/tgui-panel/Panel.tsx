@@ -4,6 +4,7 @@
  * @license MIT
  */
 
+import React from 'react';
 import { Pane } from 'tgui/layouts';
 import { Button, Section, Stack } from 'tgui-core/components';
 
@@ -27,40 +28,48 @@ export const Panel = (props) => {
     }
   }
 
+  // Set UI scale CSS variable
+  React.useEffect(() => {
+    document.documentElement.style.setProperty(
+      '--ui-scale',
+      settings.uiScale || 1,
+    );
+  }, [settings.uiScale]);
+
   return (
     <Pane theme={settings.theme}>
       <Stack fill vertical>
         <Stack.Item>
           <Section fitted>
-            <Stack mr={1} align="center">
-              <Stack.Item grow overflowX="auto">
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr auto auto auto',
+                gap: '0.5rem',
+                alignItems: 'center',
+                minWidth: 0,
+              }}
+            >
+              <div style={{ minWidth: 0, overflow: 'hidden' }}>
                 <ChatTabs />
-              </Stack.Item>
-              <Stack.Item>
-                <PingIndicator />
-              </Stack.Item>
-              <Stack.Item>
-                <Button
-                  color="grey"
-                  selected={audio.visible}
-                  icon="music"
-                  tooltip="Music player"
-                  tooltipPosition="bottom-start"
-                  onClick={() => audio.toggle()}
-                />
-              </Stack.Item>
-              <Stack.Item>
-                <Button
-                  icon={settings.visible ? 'times' : 'cog'}
-                  selected={settings.visible}
-                  tooltip={
-                    settings.visible ? 'Close settings' : 'Open settings'
-                  }
-                  tooltipPosition="bottom-start"
-                  onClick={() => settings.toggle()}
-                />
-              </Stack.Item>
-            </Stack>
+              </div>
+              <PingIndicator />
+              <Button
+                color="grey"
+                selected={audio.visible}
+                icon="music"
+                tooltip="Music player"
+                tooltipPosition="bottom-start"
+                onClick={() => audio.toggle()}
+              />
+              <Button
+                icon={settings.visible ? 'times' : 'cog'}
+                selected={settings.visible}
+                tooltip={settings.visible ? 'Close settings' : 'Open settings'}
+                tooltipPosition="bottom-start"
+                onClick={() => settings.toggle()}
+              />
+            </div>
           </Section>
         </Stack.Item>
         {audio.visible && (
@@ -78,7 +87,11 @@ export const Panel = (props) => {
         <Stack.Item grow>
           <Section fill fitted position="relative">
             <Pane.Content scrollable>
-              <ChatPanel lineHeight={settings.lineHeight} />
+              <ChatPanel
+                fontSize={settings.fontSize}
+                lineHeight={settings.lineHeight}
+                uiScale={settings.uiScale || 1}
+              />
             </Pane.Content>
             <Notifications>
               {game.connectionLostAt && (

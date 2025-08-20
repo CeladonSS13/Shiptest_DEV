@@ -20,8 +20,13 @@ $color-bg-end: color.adjust(
 ) !default;
 
 $unit: 12px;
-$font-size: 1 * $unit !default;
+$font-size: clamp(10px, calc(1rem * var(--ui-scale, 1)), 18px) !default;
 $border-radius: 0.16em !default;
+
+// UI Scale support
+:root {
+  --ui-scale: 1;
+}
 
 @function em($px) {
   @return 1em * math.div($px, $unit);

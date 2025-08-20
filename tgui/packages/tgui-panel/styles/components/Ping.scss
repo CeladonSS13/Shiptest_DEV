@@ -10,10 +10,14 @@ $border-color: rgba(140, 140, 140, 0.5) !default;
 .Ping {
   position: relative;
   padding: 0.125em 0.25em;
-  border: math.div(1em, 12) solid $border-color;
+  border: calc(1em / 12) solid $border-color;
   border-radius: 0.25em;
-  width: 3.75em;
+  min-width: 3.75em;
+  max-width: 5em;
   text-align: right;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .Ping__indicator {

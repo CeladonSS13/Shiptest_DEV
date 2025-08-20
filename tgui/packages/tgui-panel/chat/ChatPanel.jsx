@@ -46,11 +46,13 @@ export class ChatPanel extends Component {
     const shouldUpdateStyle =
       !prevProps || shallowDiffers(this.props, prevProps);
     if (shouldUpdateStyle) {
+      const uiScale = this.props.uiScale || 1;
       chatRenderer.assignStyle({
         width: '100%',
         'white-space': 'pre-wrap',
-        'font-size': this.props.fontSize,
+        'font-size': `clamp(${Math.max(8, this.props.fontSize * 0.8)}px, ${this.props.fontSize}px, ${Math.min(32, this.props.fontSize * 1.2)}px)`,
         'line-height': this.props.lineHeight,
+        '--ui-scale': uiScale,
       });
     }
   }

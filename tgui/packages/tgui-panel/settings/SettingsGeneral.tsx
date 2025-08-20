@@ -163,6 +163,24 @@ export function SettingsGeneral(props) {
             }
           />
         </LabeledList.Item>
+        <LabeledList.Item label="UI Scale" verticalAlign="middle">
+          <Stack textAlign="center">
+            <Stack.Item grow>
+              <Slider
+                width="100%"
+                step={0.05}
+                stepPixelSize={10}
+                minValue={0.7}
+                maxValue={1.5}
+                value={useSelector(selectSettings).uiScale || 1}
+                format={(value) => `${Math.round(value * 100)}%`}
+                onChange={(e, value) =>
+                  dispatch(updateSettings({ uiScale: value }))
+                }
+              />
+            </Stack.Item>
+          </Stack>
+        </LabeledList.Item>
       </LabeledList>
       <Divider />
       <Stack fill>

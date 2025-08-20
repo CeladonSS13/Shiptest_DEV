@@ -21,8 +21,8 @@ img {
 
 img.icon {
   height: 1em;
-  min-height: 16px;
-  min-width: 16px;
+  min-height: clamp(12px, calc(1rem * var(--ui-scale, 1)), 20px);
+  min-width: clamp(12px, calc(1rem * var(--ui-scale, 1)), 20px);
   width: auto;
   vertical-align: bottom;
 }
@@ -64,9 +64,9 @@ a.popt {
   color: hsl(0, 0%, 20%);
   text-decoration: none;
   z-index: 2;
-  padding: 0 10px;
-  height: 30px;
-  line-height: 30px;
+  padding: 0 0.8rem;
+  min-height: 2.5rem;
+  line-height: 2.5rem;
 }
 
 .popup .close:hover {
@@ -76,20 +76,20 @@ a.popt {
 .popup .head {
   background: hsl(0, 0%, 60%);
   color: hsl(0, 0%, 86.7%);
-  padding: 0 10px;
-  height: 30px;
-  line-height: 30px;
+  padding: 0 0.8rem;
+  min-height: 2.5rem;
+  line-height: 2.5rem;
   text-transform: uppercase;
-  font-size: 0.9em;
+  font-size: clamp(0.8em, calc(0.9em * var(--ui-scale, 1)), 1em);
   font-weight: bold;
-  border-bottom: 2px solid green;
+  border-bottom: 0.15rem solid green;
 }
 
 .popup input {
-  border: 1px solid hsl(0, 0%, 60%);
+  border: 0.08rem solid hsl(0, 0%, 60%);
   background: hsl(0, 0%, 100%);
   margin: 0;
-  padding: 5px;
+  padding: 0.4rem;
   outline: none;
   color: hsl(0, 0%, 20%);
 }
@@ -101,11 +101,11 @@ a.popt {
 }
 
 .popup input[type='submit'] {
-  padding: 5px 10px;
+  padding: 0.4rem 0.8rem;
   background: hsl(0, 0%, 60%);
   color: hsl(0, 0%, 86.7%);
   text-transform: uppercase;
-  font-size: 0.9em;
+  font-size: clamp(0.8em, calc(0.9em * var(--ui-scale, 1)), 1em);
   font-weight: bold;
 }
 
@@ -117,13 +117,13 @@ a.popt {
 }
 
 .changeFont {
-  padding: 10px;
+  padding: 0.8rem;
 }
 
 .changeFont a {
   display: block;
   text-decoration: none;
-  padding: 3px;
+  padding: 0.25rem;
   color: hsl(0, 0%, 20%);
 }
 
@@ -132,15 +132,15 @@ a.popt {
 }
 
 .highlightPopup {
-  padding: 10px;
+  padding: 0.8rem;
   text-align: center;
 }
 
 .highlightPopup input[type='text'] {
   display: block;
-  width: 215px;
+  width: clamp(180px, calc(215px * var(--ui-scale, 1)), 250px);
   text-align: left;
-  margin-top: 5px;
+  margin-top: 0.4rem;
 }
 
 .highlightPopup input.highlightColor {
@@ -148,7 +148,7 @@ a.popt {
 }
 
 .highlightPopup input.highlightTermSubmit {
-  margin-top: 5px;
+  margin-top: 0.4rem;
 }
 
 /* ADMIN CONTEXT MENU */
@@ -156,13 +156,13 @@ a.popt {
 .contextMenu {
   background-color: hsl(0, 0%, 86.7%);
   position: fixed;
-  margin: 2px;
-  width: 150px;
+  margin: 0.15rem;
+  width: clamp(120px, calc(150px * var(--ui-scale, 1)), 180px);
 }
 
 .contextMenu a {
   display: block;
-  padding: 2px 5px;
+  padding: 0.15rem 0.4rem;
   text-decoration: none;
   color: hsl(0, 0%, 20%);
 }
@@ -174,11 +174,11 @@ a.popt {
 /* ADMIN FILTER MESSAGES MENU */
 
 .filterMessages {
-  padding: 5px;
+  padding: 0.4rem;
 }
 
 .filterMessages div {
-  padding: 2px 0;
+  padding: 0.15rem 0;
 }
 
 .filterMessages input {
