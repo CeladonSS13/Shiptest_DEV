@@ -33,9 +33,25 @@ export const Autolathe = (props) => {
     'current_category',
     'None',
   );
+  const [searchQuery, setSearchQuery] = useLocalState('searchQuery', '');
+
   const filteredmaterials = materials.filter(
     (material) => material.mineral_amount > 0,
   );
+
+  const handleSearchChange = (e, value) => {
+    setSearchQuery(value);
+    if (value.length) {
+      act('search', {
+        to_search: value,
+      });
+      setCategory('results for "' + value + '"');
+    } else {
+      act('menu');
+      setCategory('');
+    }
+  };
+
   return (
     <Window title="Autolathe" theme="ntos_terminal" width={600} height={700}>
       <Window.Content scrollable>
@@ -94,15 +110,8 @@ export const Autolathe = (props) => {
           <Input
             fluid
             placeholder="Search Recipes..."
-            selfClear
-            onChange={(value) => {
-              if (value.length) {
-                act('search', {
-                  to_search: value,
-                });
-                setCategory('results for "' + value + '"');
-              }
-            }}
+            value={searchQuery}
+            onChange={handleSearchChange}
           />
         </Section>
         <Section title="Categories">
@@ -110,6 +119,7 @@ export const Autolathe = (props) => {
             {categories.map((category) => (
               // eslint-disable-next-line react/jsx-key
               <Button
+                key={category}
                 selected={current_category === category}
                 content={category}
                 onClick={() => {
@@ -117,6 +127,7 @@ export const Autolathe = (props) => {
                     selectedCategory: category,
                   });
                   setCategory(category);
+                  setSearchQuery('');
                 }}
               />
             ))}
@@ -132,6 +143,7 @@ export const Autolathe = (props) => {
                 onClick={() => {
                   act('menu');
                   setCategory('None');
+                  setSearchQuery('');
                 }}
               />
             }
