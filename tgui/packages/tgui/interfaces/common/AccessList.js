@@ -1,7 +1,9 @@
+import '../../styles/interfaces/AccessList.scss';
+
 import { sortBy } from 'common/collections';
 import { Button, Flex, Section, Table, Tabs } from 'tgui-core/components';
 
-import { useLocalState } from '../../backend'; // BYOND 516 compatibility: useSharedState -> useLocalState
+import { useSharedState } from '../../backend';
 
 const diffMap = {
   0: {
@@ -18,7 +20,7 @@ const diffMap = {
   },
 };
 
-const AccessList = (props) => {
+export const AccessList = (props) => {
   const {
     accesses = [],
     selectedList = [],
@@ -30,7 +32,7 @@ const AccessList = (props) => {
   } = props;
 
   // Safe initialization to prevent undefined errors
-  const [selectedAccessName, setSelectedAccessName] = useLocalState(
+  const [selectedAccessName, setSelectedAccessName] = useSharedState(
     'accessName',
     accesses[0]?.name,
   );
@@ -83,7 +85,7 @@ const AccessList = (props) => {
       }
     >
       <Flex>
-        <Flex.Item style={{ marginRight: '10px', maxWidth: '120px' }}>
+        <Flex.Item className="AccessList__leftColumn">
           <Tabs vertical>
             {accesses.map((access) => {
               const entries = access.accesses || [];
@@ -97,10 +99,7 @@ const AccessList = (props) => {
                   icon={icon}
                   selected={access.name === selectedAccessName}
                   onClick={() => setSelectedAccessName(access.name)}
-                  style={{
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    marginBottom: '2px',
-                  }}
+                  className="AccessList__tab"
                 >
                   {access.name}
                 </Tabs.Tab>
@@ -108,7 +107,7 @@ const AccessList = (props) => {
             })}
           </Tabs>
         </Flex.Item>
-        <Flex.Item grow={1} style={{ marginLeft: '4px' }}>
+        <Flex.Item grow={1} className="AccessList__rightColumn">
           <Section
             level={2}
             title={selectedAccess?.name?.[0] || '?'}
@@ -155,5 +154,3 @@ const AccessList = (props) => {
     </Section>
   );
 };
-
-export { AccessList };
