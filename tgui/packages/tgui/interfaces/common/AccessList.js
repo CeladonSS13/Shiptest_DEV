@@ -1,7 +1,7 @@
 import { sortBy } from 'common/collections';
-import { Button, Flex, Section, Tabs } from 'tgui-core/components';
+import { Button, Flex, Section, Table, Tabs } from 'tgui-core/components';
 
-import { useSharedState } from '../../backend';
+import { useLocalState } from '../../backend'; // BYOND 516 compatibility: useSharedState -> useLocalState
 
 const diffMap = {
   0: {
@@ -18,7 +18,7 @@ const diffMap = {
   },
 };
 
-export const AccessList = (props) => {
+const AccessList = (props) => {
   const {
     accesses = [],
     selectedList = [],
@@ -28,10 +28,13 @@ export const AccessList = (props) => {
     grantDep,
     denyDep,
   } = props;
-  const [selectedAccessName, setSelectedAccessName] = useSharedState(
+
+  // Safe initialization to prevent undefined errors
+  const [selectedAccessName, setSelectedAccessName] = useLocalState(
     'accessName',
     accesses[0]?.name,
   );
+
   const selectedAccess = accesses.find(
     (access) => access.name === selectedAccessName,
   );
@@ -80,7 +83,7 @@ export const AccessList = (props) => {
       }
     >
       <Flex>
-        <Flex.Item>
+        <Flex.Item style={{ marginRight: '10px', maxWidth: '120px' }}>
           <Tabs vertical>
             {accesses.map((access) => {
               const entries = access.accesses || [];
@@ -94,6 +97,10 @@ export const AccessList = (props) => {
                   icon={icon}
                   selected={access.name === selectedAccessName}
                   onClick={() => setSelectedAccessName(access.name)}
+                  style={{
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    marginBottom: '2px',
+                  }}
                 >
                   {access.name}
                 </Tabs.Tab>
@@ -101,38 +108,52 @@ export const AccessList = (props) => {
             })}
           </Tabs>
         </Flex.Item>
-        <Flex.Item grow={1}>
-          <Flex>
-            <Flex.Column mr={0}>
-              <Button
-                fluid
-                icon="check"
-                content="Grant Region"
-                color="good"
-                onClick={() => grantDep(selectedAccess.regid)}
-              />
-            </Flex.Column>
-            <Flex.Column ml={0}>
-              <Button
-                fluid
-                icon="times"
-                content="Deny Region"
-                color="bad"
-                onClick={() => denyDep(selectedAccess.regid)}
-              />
-            </Flex.Column>
-          </Flex>
-          {selectedAccessEntries.map((entry) => (
-            <Button.Checkbox
-              fluid
-              key={entry.desc}
-              content={entry.desc}
-              checked={selectedList.includes(entry.ref)}
-              onClick={() => accessMod(entry.ref)}
-            />
-          ))}
+        <Flex.Item grow={1} style={{ marginLeft: '4px' }}>
+          <Section
+            level={2}
+            title={selectedAccess?.name?.[0] || '?'}
+            buttons={
+              <>
+                <Button
+                  icon="check"
+                  content="Grant Region"
+                  color="good"
+                  onClick={() => grantDep(selectedAccess.regid)}
+                />
+                <Button
+                  icon="times"
+                  content="Deny Region"
+                  color="bad"
+                  onClick={() => denyDep(selectedAccess.regid)}
+                />
+              </>
+            }
+          >
+            <Table>
+              {selectedAccessEntries.map((entry) => {
+                const accessBool = selectedList.includes(entry.ref);
+                const diffColor = accessBool ? 'good' : 'bad';
+                const diffIcon = accessBool ? 'check' : 'times';
+                return (
+                  <Table.Row key={entry.ref}>
+                    <Table.Cell>
+                      <Button
+                        fluid
+                        icon={diffIcon}
+                        content={entry.desc}
+                        color={diffColor}
+                        onClick={() => accessMod(entry.ref)}
+                      />
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })}
+            </Table>
+          </Section>
         </Flex.Item>
       </Flex>
     </Section>
   );
 };
+
+export { AccessList };
